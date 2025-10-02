@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>QCM interactif</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Choix matière -->
+    <div id="subject-selection">
+      <h2>Choisis une matière :</h2>
+      <div id="subject-buttons">
+        <button data-subject="anglais">Anglais</button>
+        <button data-subject="maths">Maths</button>
+        <button data-subject="histoire">Histoire</button>
+      </div>
+    </div>
+
+    <!-- Choix thème -->
+    <div id="theme-selection" class="hidden">
+      <h2 id="selected-subject"></h2>
+      <div id="theme-buttons"></div>
+    </div>
+
+    <!-- Quiz -->
+    <div id="quiz" class="hidden">
+      <h2 id="theme-title"></h2>
+      <div id="question-container"></div>
+      <div id="options-container"></div>
+      <button id="next-btn">Suivant</button>
+    </div>
+
+    <!-- Résultat -->
+    <div id="resultat" class="hidden"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
