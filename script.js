@@ -84,20 +84,26 @@ function afficherQuestion() {
 
   let options = [...q.options];
 
-  // Mélanger les options uniquement pour les quiz du dossier "japonais"
+  // Mélanger uniquement les mauvaises réponses si le sujet = japonais
   if (currentSubject === "japonais") {
     const correctAnswer = options[q.reponse];
 
-    // Mélanger les options
-    for (let i = options.length - 1; i > 0; i--) {
+    // Extraire les mauvaises réponses
+    const wrongAnswers = options.filter((_, i) => i !== q.reponse);
+
+    // Mélanger uniquement les mauvaises réponses
+    for (let i = wrongAnswers.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [options[i], options[j]] = [options[j], options[i]];
+      [wrongAnswers[i], wrongAnswers[j]] = [wrongAnswers[j], wrongAnswers[i]];
     }
 
-    // Mettre à jour l'index de la bonne réponse
-    q.reponse = options.indexOf(correctAnswer);
+    // Reconstruire le tableau : bonne réponse reste à sa position
+    options = [
+      ...options.slice(0, q.reponse),
+      correctAnswer,
+      ...wrongAnswers
+    ];
   }
-
 
   // Créer les boutons pour chaque option
   options.forEach((option, i) => {
@@ -111,6 +117,7 @@ function afficherQuestion() {
   nextBtn.textContent = currentQuestion === questions.length - 1 ? "Terminer" : "Suivant";
   nextBtn.classList.add("hidden");
 }
+
 
 
 // --- Sélection d'une option ---
