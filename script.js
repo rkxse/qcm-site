@@ -23,7 +23,7 @@ let currentQuestion = 0;
 let score = 0;
 let currentSubject = "";
 
-// Fisher-Yates shuffle in-place (robuste)
+// Fisher-Yates shuffle
 function shuffleArrayInPlace(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -41,7 +41,7 @@ Object.keys(themes).forEach(subject => {
   subjectButtonsDiv.appendChild(btn);
 });
 
-// --- Afficher les QCM disponibles pour la matière ---
+// --- Afficher les QCM disponibles ---
 function afficherThemes(subject) {
   currentSubject = subject;
   subjectSelectionDiv.classList.add("hidden");
@@ -58,7 +58,7 @@ function afficherThemes(subject) {
       })
       .then(data => {
         const button = document.createElement("button");
-        button.textContent = data.title; // titre du QCM
+        button.textContent = data.title;
         button.addEventListener("click", () => lancerQuiz(data));
         themeButtonsDiv.appendChild(button);
       })
@@ -73,7 +73,7 @@ function lancerQuiz(data) {
 
   themeTitleEl.textContent = `${data.title}`;
 
-  // Mélanger les questions (pour tous les sujets)
+  // Mélanger les questions pour toutes les matières
   questions = shuffleArrayInPlace([...data.questions]);
   currentQuestion = 0;
   score = 0;
@@ -86,44 +86,41 @@ function afficherQuestion() {
   const q = questions[currentQuestion];
   questionContainer.textContent = q.question;
 
-  const originalOptions = [...q.options];
-  const correctIndex = q.reponse;
-
   let optionsToShow;
 
   if (currentSubject === "japonais") {
-    // 1) Enlever les doublons tout en conservant l'ordre d'apparition
-    const uniqueOptions = originalOptions.filter((v, i, a) => a.indexOf(v) === i);
+    // ✅ Récupérer toutes les options de toutes les questions du QCM
+    let allOptions = questions.flatMap(quest => quest.options);
 
-    // 2) Déterminer la bonne réponse à partir des options originales
-    const correctAnswer = originalOptions[correctIndex];
+    // ✅ Supprimer doublons
+    allOptions = [...new Set(allOptions)];
 
-    // 3) S'assurer que la bonne réponse est bien présente après la déduplication
-    if (!uniqueOptions.includes(correctAnswer)) uniqueOptions.push(correctAnswer);
+    // ✅ Réponse correcte
+    const correctAnswer = q.options[q.reponse];
 
-    // 4) Séparer mauvaises réponses, mélanger et tronquer si besoin
-    let wrongAnswers = uniqueOptions.filter(opt => opt !== correctAnswer);
+    // ✅ Enlever la bonne réponse de la liste des fausses
+    let wrongAnswers = allOptions.filter(opt => opt !== correctAnswer);
+
+    // ✅ Mélanger les mauvaises réponses
     shuffleArrayInPlace(wrongAnswers);
 
-    // (Optionnel) Limiter à 4 options max
-    const maxOptions = 4;
-    if (wrongAnswers.length > maxOptions - 1) {
-      wrongAnswers = wrongAnswers.slice(0, maxOptions - 1);
-    }
+    // ✅ Limiter à 3 mauvaises max
+    wrongAnswers = wrongAnswers.slice(0, 3);
 
-    // 5) Construire le tableau final et insérer la bonne réponse à une position aléatoire
+    // ✅ Construire la liste finale avec la bonne réponse
     optionsToShow = [...wrongAnswers];
     const randomPos = Math.floor(Math.random() * (optionsToShow.length + 1));
     optionsToShow.splice(randomPos, 0, correctAnswer);
 
-    // 6) Mettre à jour l'index de la bonne réponse
+    // ✅ Mettre à jour l’index correct
     q.reponse = randomPos;
   } else {
-    // Autres matières : pas de déduplication
-    optionsToShow = originalOptions;
+    // Autres matières : juste mélanger les options d'origine
+    optionsToShow = shuffleArrayInPlace([...q.options]);
+    q.reponse = optionsToShow.indexOf(q.options[q.reponse]);
   }
 
-  // Générer les boutons
+  // --- Générer les boutons ---
   optionsToShow.forEach((option, i) => {
     const btn = document.createElement("button");
     btn.textContent = option;
@@ -146,7 +143,6 @@ function selectOption(index, btn) {
     score++;
   } else {
     btn.classList.add("wrong");
-    // Mettre en surbrillance le bouton correct
     if (optionsContainer.children[q.reponse]) {
       optionsContainer.children[q.reponse].classList.add("correct");
     }
@@ -155,7 +151,7 @@ function selectOption(index, btn) {
   nextBtn.classList.remove("hidden");
 }
 
-// --- Passer à la question suivante ---
+// --- Suivant / Terminer ---
 nextBtn.addEventListener("click", () => {
   currentQuestion++;
   if (currentQuestion < questions.length) {
@@ -167,7 +163,6 @@ nextBtn.addEventListener("click", () => {
       Score : ${score} / ${questions.length} <br>
     `;
 
-    // Bouton Recommencer
     const restartBtn = document.createElement("button");
     restartBtn.textContent = "Recommencer";
     restartBtn.addEventListener("click", () => {
