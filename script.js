@@ -1,19 +1,13 @@
-let currentQuiz = null;
-let currentQuestion = 0;
-let score = 0;
-
 // Sélecteurs
 const subjectSelection = document.getElementById("subject-selection");
 const subjectButtonsDiv = document.getElementById("subject-buttons");
-const themesDiv = document.getElementById("theme-selection");
-const themeButtonsDiv = document.getElementById("theme-buttons");
 const quizDiv = document.getElementById("quiz");
 const questionContainer = document.getElementById("question-container");
 const optionsContainer = document.getElementById("options-container");
 const nextBtn = document.getElementById("next-btn");
 const resultatDiv = document.getElementById("resultat");
 
-// Matières et thèmes disponibles
+// Matières et thèmes disponibles (chaque thème correspond à un fichier JSON)
 const themes = {
   anglais: ["couldhave"],
   japonais: ["hiragana"]
@@ -24,75 +18,67 @@ function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-// Génération dynamique des boutons matière
+// --- Générer les boutons matière ---
 Object.keys(themes).forEach(matiere => {
   const btn = document.createElement("button");
   btn.textContent = matiere.charAt(0).toUpperCase() + matiere.slice(1);
-  btn.dataset.subject = matiere;
   btn.addEventListener("click", () => loadThemes(matiere));
   subjectButtonsDiv.appendChild(btn);
 });
 
-// Charger les thèmes d’une matière
+// --- Charger les thèmes pour une matière ---
 function loadThemes(matiere) {
   subjectSelection.classList.add("hidden");
-  themesDiv.classList.remove("hidden");
 
-  document.getElementById("selected-subject").textContent =
-    "Thèmes disponibles pour : " + matiere.charAt(0).toUpperCase() + matiere.slice(1);
+  const themeDiv = document.createElement("div");
+  themeDiv.id = "theme-buttons-container";
+  themeDiv.innerHTML = `<h2>Choisis un thème pour ${matiere} :</h2>`;
+  document.body.appendChild(themeDiv);
 
-  themeButtonsDiv.innerHTML = "";
   themes[matiere].forEach(theme => {
-    fetch(`data/${matiere}/${theme}.json`)
-      .then(res => {
-        if (!res.ok) throw new Error(`Impossible de charger ${theme}.json`);
-        return res.json();
-      })
-      .then(data => {
-        const btn = document.createElement("button");
-        btn.textContent = data.title || theme;
-        btn.onclick = () => startQuizFromData(data);
-        themeButtonsDiv.appendChild(btn);
-      })
-      .catch(err => alert("⚠️ Erreur : " + err.message));
+    const btn = document.createElement("button");
+    btn.textContent = theme;
+    btn.addEventListener("click", () => startQuizFromJSON(matiere, theme));
+    themeDiv.appendChild(btn);
   });
 }
 
-// Démarrer un quiz depuis les données JSON déjà chargées
-function startQuizFromData(data) {
-  themesDiv.classList.add("hidden");
-  quizDiv.classList.remove("hidden");
-  questionContainer.classList.remove("hidden");
-  optionsContainer.classList.remove("hidden");
+// --- Démarrer le quiz depuis un fichier JSON ---
+let currentQuiz = null;
+let currentQuestion = 0;
+let score = 0;
 
-  if (!data.questions || !Array.isArray(data.questions)) {
-    alert("Format JSON invalide : pas de questions trouvées.");
-    return;
-  }
-
-  data.questions = shuffleArray(data.questions);
-
-  currentQuiz = data;
-  currentQuestion = 0;
-  score = 0;
-  afficherQuestion();
+function startQuizFromJSON(matiere, theme) {
+  fetch(`data/${matiere}/${theme}.json`)
+    .then(res => {
+      if (!res.ok) throw new Error("Fichier JSON introuvable");
+      return res.json();
+    })
+    .then(data => {
+      currentQuiz = data;
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("theme-buttons-container").remove();
+      quizDiv.classList.remove("hidden");
+      afficherQuestion();
+    })
+    .catch(err => alert("⚠️ Erreur : " + err.message));
 }
 
-// Afficher une question
+// --- Afficher une question ---
 function afficherQuestion() {
   optionsContainer.innerHTML = "";
-  let q = currentQuiz.questions[currentQuestion];
+  const q = currentQuiz.questions[currentQuestion];
 
   questionContainer.textContent = q.question;
 
-  let options = [...q.options];
-  let correctIndex = q.reponse;
-  let correctAnswer = options[correctIndex];
-  options = shuffleArray(options);
+  const options = [...q.options];
+  const correctAnswer = options[q.reponse];
+  shuffleArray(options);
   q.reponse = options.indexOf(correctAnswer);
 
   options.forEach((option, i) => {
-    let btn = document.createElement("button");
+    const btn = document.createElement("button");
     btn.textContent = option;
     btn.classList.add("option");
     btn.addEventListener("click", () => selectOption(i, btn));
@@ -103,10 +89,9 @@ function afficherQuestion() {
   nextBtn.textContent = currentQuestion === currentQuiz.questions.length - 1 ? "Terminer" : "Suivant";
 }
 
-// Quand l’utilisateur choisit une option
+// --- Quand l’utilisateur choisit une option ---
 function selectOption(index, btn) {
-  let q = currentQuiz.questions[currentQuestion];
-
+  const q = currentQuiz.questions[currentQuestion];
   Array.from(optionsContainer.children).forEach(b => (b.disabled = true));
 
   if (index === q.reponse) {
@@ -120,7 +105,7 @@ function selectOption(index, btn) {
   nextBtn.classList.remove("hidden");
 }
 
-// Passer à la question suivante
+// --- Passer à la question suivante ---
 nextBtn.addEventListener("click", () => {
   currentQuestion++;
   if (currentQuestion < currentQuiz.questions.length) {
