@@ -77,24 +77,29 @@ function lancerQuiz(data) {
   afficherQuestion();
 }
 
+// --- Afficher une question ---
 function afficherQuestion() {
   optionsContainer.innerHTML = "";
   const q = questions[currentQuestion];
   questionContainer.textContent = q.question;
 
-  // Mélanger les options sans perdre la bonne réponse
-  const options = [...q.options];
-  const correctAnswer = options[q.reponse];
+  let options = [...q.options];
 
-  // Mélanger
-  for (let i = options.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [options[i], options[j]] = [options[j], options[i]];
+  // Mélanger les options uniquement pour le quiz Hiragana
+  if (themeTitleEl.textContent === "Hiragana") {
+    const correctAnswer = options[q.reponse];
+
+    // Mélanger les options
+    for (let i = options.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [options[i], options[j]] = [options[j], options[i]];
+    }
+
+    // Mettre à jour l'index de la bonne réponse
+    q.reponse = options.indexOf(correctAnswer);
   }
 
-  // Mettre à jour l'index de la bonne réponse
-  q.reponse = options.indexOf(correctAnswer);
-
+  // Créer les boutons pour chaque option
   options.forEach((option, i) => {
     const btn = document.createElement("button");
     btn.textContent = option;
