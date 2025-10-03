@@ -92,29 +92,34 @@ function afficherQuestion() {
   let optionsToShow;
 
   if (currentSubject === "japonais") {
-    // Bonne réponse
+    // 1) Enlever les doublons tout en conservant l'ordre d'apparition
+    const uniqueOptions = originalOptions.filter((v, i, a) => a.indexOf(v) === i);
+
+    // 2) Déterminer la bonne réponse à partir des options originales
     const correctAnswer = originalOptions[correctIndex];
 
-    // Supprimer les doublons éventuels dans la liste des options
-    const uniqueOptions = [...new Set(originalOptions)];
+    // 3) S'assurer que la bonne réponse est bien présente après la déduplication
+    if (!uniqueOptions.includes(correctAnswer)) uniqueOptions.push(correctAnswer);
 
-    // Séparer bonnes et mauvaises réponses
-    const wrongAnswers = uniqueOptions.filter(opt => opt !== correctAnswer);
-
-    // Mélanger les mauvaises réponses
+    // 4) Séparer mauvaises réponses, mélanger et tronquer si besoin
+    let wrongAnswers = uniqueOptions.filter(opt => opt !== correctAnswer);
     shuffleArrayInPlace(wrongAnswers);
 
-    // Recréer un tableau : on mélange tout puis on replace la bonne réponse
-    optionsToShow = [...wrongAnswers];
+    // (Optionnel) Limiter à 4 options max
+    const maxOptions = 4;
+    if (wrongAnswers.length > maxOptions - 1) {
+      wrongAnswers = wrongAnswers.slice(0, maxOptions - 1);
+    }
 
-    // Choisir une position aléatoire pour insérer la bonne réponse
+    // 5) Construire le tableau final et insérer la bonne réponse à une position aléatoire
+    optionsToShow = [...wrongAnswers];
     const randomPos = Math.floor(Math.random() * (optionsToShow.length + 1));
     optionsToShow.splice(randomPos, 0, correctAnswer);
 
-    // Mettre à jour l’index de la bonne réponse dans q
+    // 6) Mettre à jour l'index de la bonne réponse
     q.reponse = randomPos;
   } else {
-    // Autres matières : on mélange juste les questions, pas les réponses
+    // Autres matières : pas de déduplication
     optionsToShow = originalOptions;
   }
 
@@ -131,7 +136,6 @@ function afficherQuestion() {
   nextBtn.classList.add("hidden");
 }
 
-
 // --- Sélection d'une option ---
 function selectOption(index, btn) {
   const q = questions[currentQuestion];
@@ -142,7 +146,7 @@ function selectOption(index, btn) {
     score++;
   } else {
     btn.classList.add("wrong");
-    // Mettre en surbrillance le bouton correct (utilise q.reponse)
+    // Mettre en surbrillance le bouton correct
     if (optionsContainer.children[q.reponse]) {
       optionsContainer.children[q.reponse].classList.add("correct");
     }
