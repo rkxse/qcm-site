@@ -77,16 +77,22 @@ function lancerQuiz(data) {
   afficherQuestion();
 }
 
-// --- Afficher une question ---
 function afficherQuestion() {
   optionsContainer.innerHTML = "";
   const q = questions[currentQuestion];
   questionContainer.textContent = q.question;
 
-  // Mélanger les options
+  // Mélanger les options sans perdre la bonne réponse
   const options = [...q.options];
   const correctAnswer = options[q.reponse];
-  shuffleArray(options);
+
+  // Mélanger
+  for (let i = options.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [options[i], options[j]] = [options[j], options[i]];
+  }
+
+  // Mettre à jour l'index de la bonne réponse
   q.reponse = options.indexOf(correctAnswer);
 
   options.forEach((option, i) => {
@@ -100,6 +106,7 @@ function afficherQuestion() {
   nextBtn.textContent = currentQuestion === questions.length - 1 ? "Terminer" : "Suivant";
   nextBtn.classList.add("hidden");
 }
+
 
 // --- Sélection d'une option ---
 function selectOption(index, btn) {
