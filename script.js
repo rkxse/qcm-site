@@ -68,7 +68,7 @@ function lancerQuiz(data) {
 
   themeTitleEl.textContent = `${data.title}`;
 
-  // Mélanger les questions
+  // Mélanger les questions (pour tous les sujets)
   questions = shuffleArray([...data.questions]);
   currentQuestion = 0;
   score = 0;
@@ -84,20 +84,20 @@ function afficherQuestion() {
 
   let options = [...q.options];
 
-  // Mélanger uniquement les mauvaises réponses si le sujet = japonais
+  // Si le sujet = japonais → mélanger uniquement les mauvaises réponses
   if (currentSubject === "japonais") {
     const correctAnswer = options[q.reponse];
 
     // Extraire les mauvaises réponses
     const wrongAnswers = options.filter((_, i) => i !== q.reponse);
 
-    // Mélanger uniquement les mauvaises réponses
+    // Mélanger les mauvaises réponses
     for (let i = wrongAnswers.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [wrongAnswers[i], wrongAnswers[j]] = [wrongAnswers[j], wrongAnswers[i]];
     }
 
-    // Reconstruire le tableau : bonne réponse reste à sa position
+    // Reconstruire : garder la bonne réponse à sa place
     options = [
       ...options.slice(0, q.reponse),
       correctAnswer,
@@ -117,7 +117,6 @@ function afficherQuestion() {
   nextBtn.textContent = currentQuestion === questions.length - 1 ? "Terminer" : "Suivant";
   nextBtn.classList.add("hidden");
 }
-
 
 
 // --- Sélection d'une option ---
