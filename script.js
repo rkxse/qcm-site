@@ -2,9 +2,9 @@ let currentQuiz = null;
 let currentQuestion = 0;
 let score = 0;
 
-// Sélecteurs
-const matieresDiv = document.getElementById("matieres");
-const themesDiv = document.getElementById("themes");
+// Sélecteurs adaptés à ton HTML
+const matieresDiv = document.getElementById("subject-selection");
+const themesDiv = document.getElementById("theme-selection");
 const quizDiv = document.getElementById("quiz");
 const questionContainer = document.getElementById("question-container");
 const optionsContainer = document.getElementById("options-container");
@@ -18,13 +18,8 @@ function shuffleArray(array) {
 
 // Charger la liste des matières
 function loadMatieres() {
-  // Ici tu listes tes matières disponibles (ajoute selon tes besoins)
+  // Ici tu listes tes matières disponibles
   const matieres = ["anglais", "japonais"];
-// 📌 Les thèmes disponibles (liés aux fichiers JSON dans /data/)
-const themes = {
-  anglais: ["couldhave"],
-  japonais: ["hiragana"]
-};
 
   matieresDiv.innerHTML = "<h2>Choisis une matière :</h2>";
   matieres.forEach(matiere => {
@@ -40,29 +35,35 @@ function loadThemes(matiere) {
   matieresDiv.classList.add("hidden");
   themesDiv.classList.remove("hidden");
 
-  // Liste des thèmes par matière (ajoute ici ce que tu veux)
   const themes = {
     anglais: ["couldhave"],
     japonais: ["hiragana"]
   };
 
-  themesDiv.innerHTML = "<h2>Choisis un thème :</h2>";
+  const themeButtons = document.getElementById("theme-buttons");
+  const subjectTitle = document.getElementById("selected-subject");
+
+  subjectTitle.textContent = "Thèmes disponibles en " + matiere;
+  themeButtons.innerHTML = "";
+
   themes[matiere].forEach(theme => {
     fetch(`data/${matiere}/${theme}.json`)
       .then(res => res.json())
       .then(data => {
         let btn = document.createElement("button");
-        btn.textContent = data.title; // utiliser le titre du JSON
-        btn.onclick = () => startQuiz(matiere, theme);
-        themesDiv.appendChild(btn);
+        btn.textContent = data.title;
+        btn.onclick = () => startQuiz(matiere, theme, data.title);
+        themeButtons.appendChild(btn);
       });
   });
 }
 
 // Démarrer un quiz
-function startQuiz(matiere, theme) {
+function startQuiz(matiere, theme, title) {
   themesDiv.classList.add("hidden");
   quizDiv.classList.remove("hidden");
+
+  document.getElementById("theme-title").textContent = title;
 
   fetch(`data/${matiere}/${theme}.json`)
     .then(response => response.json())
@@ -89,7 +90,7 @@ function afficherQuestion() {
   let correctIndex = q.reponse;
   let correctAnswer = options[correctIndex];
   options = shuffleArray(options);
-  q.reponse = options.indexOf(correctAnswer); // réajuster l’index correct
+  q.reponse = options.indexOf(correctAnswer);
 
   options.forEach((option, i) => {
     let btn = document.createElement("button");
@@ -100,18 +101,13 @@ function afficherQuestion() {
   });
 
   nextBtn.classList.add("hidden");
-  if (currentQuestion === currentQuiz.questions.length - 1) {
-    nextBtn.textContent = "Terminer";
-  } else {
-    nextBtn.textContent = "Suivant";
-  }
+  nextBtn.textContent = (currentQuestion === currentQuiz.questions.length - 1) ? "Terminer" : "Suivant";
 }
 
 // Quand l’utilisateur choisit une option
 function selectOption(index, btn) {
   let q = currentQuiz.questions[currentQuestion];
 
-  // désactiver toutes les options
   Array.from(optionsContainer.children).forEach(b => b.disabled = true);
 
   if (index === q.reponse) {
@@ -139,5 +135,5 @@ nextBtn.addEventListener("click", () => {
   }
 });
 
-// Démarrer au choix des matières
+// Démarrer
 loadMatieres();
