@@ -67,7 +67,7 @@ function lancerQuiz(data) {
   themeSelectionDiv.classList.add("hidden");
   quizDiv.classList.remove("hidden");
 
-  themeTitleEl.textContent = `${data.title} (${currentSubject})`;
+  themeTitleEl.textContent = `${data.title}`;
 
   // Mélanger les questions
   questions = shuffleArray([...data.questions]);
