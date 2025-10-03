@@ -67,14 +67,24 @@ function afficherThemes(subject) {
 }
 
 // --- Lancer le quiz ---
+// On clone chaque question pour éviter de muter le JSON d'origine.
+// On conserve l'index original sous originalReponse.
 function lancerQuiz(data) {
   themeSelectionDiv.classList.add("hidden");
   quizDiv.classList.remove("hidden");
 
   themeTitleEl.textContent = `${data.title}`;
 
-  // Mélanger les questions pour toutes les matières
-  questions = shuffleArrayInPlace([...data.questions]);
+  // Deep-ish copy des questions (copie des objets et des tableaux d'options)
+  questions = data.questions.map(q => ({
+    question: q.question,
+    options: [...q.options],
+    originalReponse: q.reponse // index d'origine dans le fichier JSON
+  }));
+
+  // Mélanger les questions (ordre aléatoire)
+  questions = shuffleArrayInPlace(questions);
+
   currentQuestion = 0;
   score = 0;
 
@@ -86,38 +96,40 @@ function afficherQuestion() {
   const q = questions[currentQuestion];
   questionContainer.textContent = q.question;
 
-  let optionsToShow;
+  // Récupérer la bonne réponse depuis originalReponse (chaîne)
+  const originalCorrectAnswer = q.options[q.originalReponse];
+
+  let optionsToShow = [];
 
   if (currentSubject === "japonais") {
-    // ✅ Récupérer toutes les options de toutes les questions du QCM
+    // Récupérer toutes les options du QCM (toutes les questions)
     let allOptions = questions.flatMap(quest => quest.options);
 
-    // ✅ Supprimer doublons
+    // Supprimer les doublons
     allOptions = [...new Set(allOptions)];
 
-    // ✅ Réponse correcte
-    const correctAnswer = q.options[q.reponse];
+    // Construire la liste des mauvaises réponses (exclure la bonne)
+    let wrongAnswers = allOptions.filter(opt => opt !== originalCorrectAnswer);
 
-    // ✅ Enlever la bonne réponse de la liste des fausses
-    let wrongAnswers = allOptions.filter(opt => opt !== correctAnswer);
-
-    // ✅ Mélanger les mauvaises réponses
+    // Mélanger les mauvaises réponses
     shuffleArrayInPlace(wrongAnswers);
 
-    // ✅ Limiter à 3 mauvaises max
+    // Limiter à 3 mauvaises réponses maxi
     wrongAnswers = wrongAnswers.slice(0, 3);
 
-    // ✅ Construire la liste finale avec la bonne réponse
+    // Construire final + insérer la bonne réponse à une position aléatoire
     optionsToShow = [...wrongAnswers];
     const randomPos = Math.floor(Math.random() * (optionsToShow.length + 1));
-    optionsToShow.splice(randomPos, 0, correctAnswer);
+    optionsToShow.splice(randomPos, 0, originalCorrectAnswer);
 
-    // ✅ Mettre à jour l’index correct
+    // Mettre à jour l'index "runtime" de la bonne réponse
     q.reponse = randomPos;
   } else {
-    // Autres matières : juste mélanger les options d'origine
+    // Autres matières : on mélange les options de la question
     optionsToShow = shuffleArrayInPlace([...q.options]);
-    q.reponse = optionsToShow.indexOf(q.options[q.reponse]);
+
+    // Calculer l'index de la bonne réponse dans le nouveau tableau mélangé
+    q.reponse = optionsToShow.indexOf(originalCorrectAnswer);
   }
 
   // --- Générer les boutons ---
@@ -143,6 +155,7 @@ function selectOption(index, btn) {
     score++;
   } else {
     btn.classList.add("wrong");
+    // Mettre en surbrillance le bouton correct si présent
     if (optionsContainer.children[q.reponse]) {
       optionsContainer.children[q.reponse].classList.add("correct");
     }
