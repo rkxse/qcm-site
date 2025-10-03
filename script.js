@@ -14,9 +14,8 @@ const resultatDiv = document.getElementById("resultat");
 // Matières et thèmes disponibles
 const themes = {
   anglais: ["couldhave"],
-  japonais: ["hiragana"]
+  japonais: ["hiragana", "katakana"]
 };
-
 // Variables pour le quiz
 let questions = [];
 let currentQuestion = 0;
