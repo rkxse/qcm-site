@@ -2,7 +2,7 @@ let currentQuiz = null;
 let currentQuestion = 0;
 let score = 0;
 
-// Sélecteurs avec les bons ID
+// Sélecteurs
 const subjectSelection = document.getElementById("subject-selection");
 const subjectButtonsDiv = document.getElementById("subject-buttons");
 const themesDiv = document.getElementById("theme-selection");
@@ -24,12 +24,13 @@ function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-// Ajouter événements aux boutons matière
-document.querySelectorAll("#subject-buttons button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    let matiere = btn.dataset.subject;
-    loadThemes(matiere);
-  });
+// Génération dynamique des boutons matière
+Object.keys(themes).forEach(matiere => {
+  const btn = document.createElement("button");
+  btn.textContent = matiere.charAt(0).toUpperCase() + matiere.slice(1);
+  btn.dataset.subject = matiere;
+  btn.addEventListener("click", () => loadThemes(matiere));
+  subjectButtonsDiv.appendChild(btn);
 });
 
 // Charger les thèmes d’une matière
@@ -48,38 +49,33 @@ function loadThemes(matiere) {
         return res.json();
       })
       .then(data => {
-        let btn = document.createElement("button");
+        const btn = document.createElement("button");
         btn.textContent = data.title || theme;
-        btn.onclick = () => startQuiz(matiere, theme);
+        btn.onclick = () => startQuizFromData(data);
         themeButtonsDiv.appendChild(btn);
       })
       .catch(err => alert("⚠️ Erreur : " + err.message));
   });
 }
 
-// Démarrer un quiz
-function startQuiz(matiere, theme) {
+// Démarrer un quiz depuis les données JSON déjà chargées
+function startQuizFromData(data) {
   themesDiv.classList.add("hidden");
   quizDiv.classList.remove("hidden");
+  questionContainer.classList.remove("hidden");
+  optionsContainer.classList.remove("hidden");
 
-  fetch(`data/${matiere}/${theme}.json`)
-    .then(res => {
-      if (!res.ok) throw new Error(`Fichier ${theme}.json introuvable`);
-      return res.json();
-    })
-    .then(data => {
-      if (!data.questions || !Array.isArray(data.questions)) {
-        throw new Error("Format JSON invalide : pas de questions trouvées.");
-      }
+  if (!data.questions || !Array.isArray(data.questions)) {
+    alert("Format JSON invalide : pas de questions trouvées.");
+    return;
+  }
 
-      data.questions = shuffleArray(data.questions);
+  data.questions = shuffleArray(data.questions);
 
-      currentQuiz = data;
-      currentQuestion = 0;
-      score = 0;
-      afficherQuestion();
-    })
-    .catch(err => alert("⚠️ Erreur : " + err.message));
+  currentQuiz = data;
+  currentQuestion = 0;
+  score = 0;
+  afficherQuestion();
 }
 
 // Afficher une question
@@ -104,11 +100,7 @@ function afficherQuestion() {
   });
 
   nextBtn.classList.add("hidden");
-  if (currentQuestion === currentQuiz.questions.length - 1) {
-    nextBtn.textContent = "Terminer";
-  } else {
-    nextBtn.textContent = "Suivant";
-  }
+  nextBtn.textContent = currentQuestion === currentQuiz.questions.length - 1 ? "Terminer" : "Suivant";
 }
 
 // Quand l’utilisateur choisit une option
@@ -134,10 +126,20 @@ nextBtn.addEventListener("click", () => {
   if (currentQuestion < currentQuiz.questions.length) {
     afficherQuestion();
   } else {
+    // Fin du quiz
     questionContainer.classList.add("hidden");
     optionsContainer.classList.add("hidden");
     nextBtn.classList.add("hidden");
-    resultatDiv.textContent = `Ton score : ${score} / ${currentQuiz.questions.length} ✅`;
+
+    resultatDiv.innerHTML = `Ton score : ${score} / ${currentQuiz.questions.length} ✅<br><button id="restart-btn">Recommencer</button>`;
     resultatDiv.classList.remove("hidden");
+
+    document.getElementById("restart-btn").addEventListener("click", () => {
+      resultatDiv.classList.add("hidden");
+      subjectSelection.classList.remove("hidden");
+      currentQuiz = null;
+      currentQuestion = 0;
+      score = 0;
+    });
   }
 });
