@@ -16,15 +16,20 @@ const themes = {
   anglais: ["couldhave"],
   japonais: ["hiragana", "katakana"]
 };
+
 // Variables pour le quiz
 let questions = [];
 let currentQuestion = 0;
 let score = 0;
 let currentSubject = "";
 
-// Mélanger un tableau
-function shuffleArray(array) {
-  return array.sort(() => Math.random() - 0.5);
+// Fisher-Yates shuffle in-place (robuste)
+function shuffleArrayInPlace(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 // --- Générer les boutons matière ---
@@ -69,7 +74,7 @@ function lancerQuiz(data) {
   themeTitleEl.textContent = `${data.title}`;
 
   // Mélanger les questions (pour tous les sujets)
-  questions = shuffleArray([...data.questions]);
+  questions = shuffleArrayInPlace([...data.questions]);
   currentQuestion = 0;
   score = 0;
 
@@ -82,31 +87,35 @@ function afficherQuestion() {
   const q = questions[currentQuestion];
   questionContainer.textContent = q.question;
 
-  let options = [...q.options];
+  // Travail sur une copie des options
+  const originalOptions = [...q.options];
+  const correctIndex = q.reponse; // index de la bonne réponse dans originalOptions
 
-  // Si le sujet = japonais → mélanger uniquement les mauvaises réponses
+  let optionsToShow;
+
   if (currentSubject === "japonais") {
-    const correctAnswer = options[q.reponse];
-
+    // Mélanger uniquement les mauvaises réponses, garder la bonne réponse à sa position
+    const correctAnswer = originalOptions[correctIndex];
     // Extraire les mauvaises réponses
-    const wrongAnswers = options.filter((_, i) => i !== q.reponse);
-
+    const wrongAnswers = originalOptions.filter((_, i) => i !== correctIndex);
     // Mélanger les mauvaises réponses
-    for (let i = wrongAnswers.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [wrongAnswers[i], wrongAnswers[j]] = [wrongAnswers[j], wrongAnswers[i]];
+    shuffleArrayInPlace(wrongAnswers);
+    // Reconstruire le tableau final : mettre la bonne réponse à correctIndex et répartir les mauvais sur les autres indices
+    optionsToShow = new Array(originalOptions.length);
+    optionsToShow[correctIndex] = correctAnswer;
+    let w = 0;
+    for (let i = 0; i < optionsToShow.length; i++) {
+      if (i === correctIndex) continue;
+      optionsToShow[i] = wrongAnswers[w++];
     }
-
-    // Reconstruire : garder la bonne réponse à sa place
-    options = [
-      ...options.slice(0, q.reponse),
-      correctAnswer,
-      ...wrongAnswers
-    ];
+    // q.reponse reste égal à correctIndex (on ne modifie pas)
+  } else {
+    // Pour les autres sujets : ne pas toucher à l'ordre des options (ou ajouter un shuffle si tu veux)
+    optionsToShow = originalOptions;
   }
 
   // Créer les boutons pour chaque option
-  options.forEach((option, i) => {
+  optionsToShow.forEach((option, i) => {
     const btn = document.createElement("button");
     btn.textContent = option;
     btn.classList.add("option");
@@ -118,7 +127,6 @@ function afficherQuestion() {
   nextBtn.classList.add("hidden");
 }
 
-
 // --- Sélection d'une option ---
 function selectOption(index, btn) {
   const q = questions[currentQuestion];
@@ -129,7 +137,10 @@ function selectOption(index, btn) {
     score++;
   } else {
     btn.classList.add("wrong");
-    optionsContainer.children[q.reponse].classList.add("correct");
+    // Mettre en surbrillance le bouton correct (utilise q.reponse)
+    if (optionsContainer.children[q.reponse]) {
+      optionsContainer.children[q.reponse].classList.add("correct");
+    }
   }
 
   nextBtn.classList.remove("hidden");
