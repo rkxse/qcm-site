@@ -16,9 +16,6 @@ let score = 0;
 
 // 📌 Les thèmes disponibles (liés aux fichiers JSON dans /data/)
 const themes = {
-  anglais: ["couldhave"],
-  maths: ["probabilites"],
-  histoire: ["revolution"]
 };
 
 // Choisir une matière
