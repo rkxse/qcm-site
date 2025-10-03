@@ -81,40 +81,44 @@ function lancerQuiz(data) {
   afficherQuestion();
 }
 
-// --- Afficher une question ---
 function afficherQuestion() {
   optionsContainer.innerHTML = "";
   const q = questions[currentQuestion];
   questionContainer.textContent = q.question;
 
-  // Travail sur une copie des options
   const originalOptions = [...q.options];
-  const correctIndex = q.reponse; // index de la bonne réponse dans originalOptions
+  const correctIndex = q.reponse;
 
   let optionsToShow;
 
   if (currentSubject === "japonais") {
-    // Mélanger uniquement les mauvaises réponses, garder la bonne réponse à sa position
+    // Bonne réponse
     const correctAnswer = originalOptions[correctIndex];
-    // Extraire les mauvaises réponses
+
+    // Mauvaises réponses
     const wrongAnswers = originalOptions.filter((_, i) => i !== correctIndex);
-    // Mélanger les mauvaises réponses
+
+    // Mélange des mauvaises réponses
     shuffleArrayInPlace(wrongAnswers);
-    // Reconstruire le tableau final : mettre la bonne réponse à correctIndex et répartir les mauvais sur les autres indices
-    optionsToShow = new Array(originalOptions.length);
-    optionsToShow[correctIndex] = correctAnswer;
+
+    // Reconstruire un tableau propre
+    optionsToShow = [];
     let w = 0;
-    for (let i = 0; i < optionsToShow.length; i++) {
-      if (i === correctIndex) continue;
-      optionsToShow[i] = wrongAnswers[w++];
+    for (let i = 0; i < originalOptions.length; i++) {
+      if (i === correctIndex) {
+        optionsToShow[i] = correctAnswer;
+      } else {
+        optionsToShow[i] = wrongAnswers[w++];
+      }
     }
-    // q.reponse reste égal à correctIndex (on ne modifie pas)
+
+    // On ne touche pas à q.reponse (il reste l’index de la bonne réponse)
   } else {
-    // Pour les autres sujets : ne pas toucher à l'ordre des options (ou ajouter un shuffle si tu veux)
+    // Autres matières : garder l'ordre original
     optionsToShow = originalOptions;
   }
 
-  // Créer les boutons pour chaque option
+  // Génération des boutons
   optionsToShow.forEach((option, i) => {
     const btn = document.createElement("button");
     btn.textContent = option;
@@ -126,6 +130,7 @@ function afficherQuestion() {
   nextBtn.textContent = currentQuestion === questions.length - 1 ? "Terminer" : "Suivant";
   nextBtn.classList.add("hidden");
 }
+
 
 // --- Sélection d'une option ---
 function selectOption(index, btn) {
