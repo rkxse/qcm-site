@@ -67,8 +67,3 @@ button:hover {
 .hidden {
   display: none;
 }
-
-.option:disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
