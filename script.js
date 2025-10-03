@@ -20,6 +20,11 @@ function shuffleArray(array) {
 function loadMatieres() {
   // Ici tu listes tes matières disponibles (ajoute selon tes besoins)
   const matieres = ["anglais", "japonais"];
+// 📌 Les thèmes disponibles (liés aux fichiers JSON dans /data/)
+const themes = {
+  anglais: ["couldhave"],
+  japonais: ["hiragana"]
+};
 
   matieresDiv.innerHTML = "<h2>Choisis une matière :</h2>";
   matieres.forEach(matiere => {
