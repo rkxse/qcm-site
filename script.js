@@ -11,7 +11,7 @@ const optionsContainer = document.getElementById("options-container");
 const nextBtn = document.getElementById("next-btn");
 const resultatDiv = document.getElementById("resultat");
 
-// 📌 Les thèmes disponibles (fichiers JSON dans /data/)
+// Matières et thèmes disponibles
 const themes = {
   anglais: ["couldhave"],
   japonais: ["hiragana"]
@@ -23,7 +23,7 @@ let currentQuestion = 0;
 let score = 0;
 let currentSubject = "";
 
-// Fonction pour mélanger un tableau
+// Mélanger un tableau
 function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
 }
@@ -37,7 +37,7 @@ Object.keys(themes).forEach(subject => {
   subjectButtonsDiv.appendChild(btn);
 });
 
-// --- Afficher les thèmes pour la matière choisie ---
+// --- Afficher les QCM disponibles pour la matière ---
 function afficherThemes(subject) {
   currentSubject = subject;
   subjectSelectionDiv.classList.add("hidden");
@@ -54,10 +54,8 @@ function afficherThemes(subject) {
       })
       .then(data => {
         const button = document.createElement("button");
-        button.textContent = data.title;
+        button.textContent = data.title; // titre du QCM
         button.addEventListener("click", () => lancerQuiz(data));
-        button.style.display = "block"; // Affichage propre
-        button.style.margin = "10px auto";
         themeButtonsDiv.appendChild(button);
       })
       .catch(err => console.error("Erreur chargement JSON:", err));
@@ -71,9 +69,8 @@ function lancerQuiz(data) {
 
   themeTitleEl.textContent = `${data.title} (${currentSubject})`;
 
-  // Mélanger les questions avant de commencer
+  // Mélanger les questions
   questions = shuffleArray([...data.questions]);
-
   currentQuestion = 0;
   score = 0;
 
