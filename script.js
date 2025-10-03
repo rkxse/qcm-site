@@ -95,30 +95,30 @@ function afficherQuestion() {
     // Bonne réponse
     const correctAnswer = originalOptions[correctIndex];
 
-    // Mauvaises réponses
-    const wrongAnswers = originalOptions.filter((_, i) => i !== correctIndex);
+    // Supprimer les doublons éventuels dans la liste des options
+    const uniqueOptions = [...new Set(originalOptions)];
 
-    // Mélange des mauvaises réponses
+    // Séparer bonnes et mauvaises réponses
+    const wrongAnswers = uniqueOptions.filter(opt => opt !== correctAnswer);
+
+    // Mélanger les mauvaises réponses
     shuffleArrayInPlace(wrongAnswers);
 
-    // Reconstruire un tableau propre
-    optionsToShow = [];
-    let w = 0;
-    for (let i = 0; i < originalOptions.length; i++) {
-      if (i === correctIndex) {
-        optionsToShow[i] = correctAnswer;
-      } else {
-        optionsToShow[i] = wrongAnswers[w++];
-      }
-    }
+    // Recréer un tableau : on mélange tout puis on replace la bonne réponse
+    optionsToShow = [...wrongAnswers];
 
-    // On ne touche pas à q.reponse (il reste l’index de la bonne réponse)
+    // Choisir une position aléatoire pour insérer la bonne réponse
+    const randomPos = Math.floor(Math.random() * (optionsToShow.length + 1));
+    optionsToShow.splice(randomPos, 0, correctAnswer);
+
+    // Mettre à jour l’index de la bonne réponse dans q
+    q.reponse = randomPos;
   } else {
-    // Autres matières : garder l'ordre original
+    // Autres matières : on mélange juste les questions, pas les réponses
     optionsToShow = originalOptions;
   }
 
-  // Génération des boutons
+  // Générer les boutons
   optionsToShow.forEach((option, i) => {
     const btn = document.createElement("button");
     btn.textContent = option;
