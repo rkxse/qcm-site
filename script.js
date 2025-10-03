@@ -85,8 +85,8 @@ function afficherQuestion() {
 
   let options = [...q.options];
 
-  // Mélanger les options uniquement pour le quiz Hiragana
-  if (themeTitleEl.textContent === "Hiragana") {
+  // Mélanger les options uniquement pour les quiz du dossier "japonais"
+  if (currentSubject === "japonais") {
     const correctAnswer = options[q.reponse];
 
     // Mélanger les options
@@ -98,6 +98,7 @@ function afficherQuestion() {
     // Mettre à jour l'index de la bonne réponse
     q.reponse = options.indexOf(correctAnswer);
   }
+
 
   // Créer les boutons pour chaque option
   options.forEach((option, i) => {

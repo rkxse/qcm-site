@@ -1,0 +1,235 @@
+{
+  "title": "Katakana",
+  "questions": [
+    {
+      "question": "Quel est le son de ce caractère : ア",
+      "options": ["a", "i", "u", "o"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : イ",
+      "options": ["e", "i", "o", "a"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ウ",
+      "options": ["u", "a", "i", "e"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : エ",
+      "options": ["o", "a", "e", "i"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : オ",
+      "options": ["u", "o", "i", "a"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : カ",
+      "options": ["ka", "ke", "ko", "ku"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : キ",
+      "options": ["ko", "ki", "ku", "ka"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ク",
+      "options": ["ka", "ke", "ku", "ko"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : ケ",
+      "options": ["ki", "ko", "ke", "ka"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : コ",
+      "options": ["ko", "ka", "ku", "ke"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : サ",
+      "options": ["so", "sa", "se", "su"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : シ",
+      "options": ["shi", "sa", "se", "so"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : ス",
+      "options": ["se", "su", "sa", "so"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : セ",
+      "options": ["sa", "se", "so", "shi"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ソ",
+      "options": ["su", "se", "so", "sa"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : タ",
+      "options": ["ta", "te", "to", "chi"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : チ",
+      "options": ["ta", "chi", "te", "to"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ツ",
+      "options": ["tsu", "to", "te", "ta"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : テ",
+      "options": ["ta", "te", "to", "tsu"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ト",
+      "options": ["to", "te", "ta", "tsu"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : ナ",
+      "options": ["ni", "ne", "na", "no"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : ニ",
+      "options": ["ni", "ne", "na", "no"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : ヌ",
+      "options": ["nu", "ne", "no", "ni"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : ネ",
+      "options": ["na", "ne", "ni", "no"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ノ",
+      "options": ["no", "na", "ne", "ni"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : ハ",
+      "options": ["ha", "hi", "fu", "he"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : ヒ",
+      "options": ["hi", "ha", "he", "ho"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : フ",
+      "options": ["fu", "ho", "he", "ha"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : ヘ",
+      "options": ["ho", "ha", "he", "hi"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : ホ",
+      "options": ["hi", "ho", "ha", "he"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : マ",
+      "options": ["mi", "ma", "mo", "mu"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ミ",
+      "options": ["ma", "mi", "mu", "mo"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ム",
+      "options": ["ma", "mo", "mu", "mi"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : メ",
+      "options": ["mi", "me", "mu", "mo"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : モ",
+      "options": ["mu", "ma", "mi", "mo"],
+      "reponse": 3
+    },
+    {
+      "question": "Quel est le son de ce caractère : ヤ",
+      "options": ["yo", "yu", "ya", "yi"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : ユ",
+      "options": ["ya", "yo", "yu", "yi"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : ヨ",
+      "options": ["ya", "yu", "yo", "ye"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : ラ",
+      "options": ["re", "ra", "ri", "ro"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : リ",
+      "options": ["ri", "ra", "re", "ro"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : ル",
+      "options": ["ro", "ri", "ra", "ru"],
+      "reponse": 3
+    },
+    {
+      "question": "Quel est le son de ce caractère : レ",
+      "options": ["ro", "ri", "re", "ru"],
+      "reponse": 2
+    },
+    {
+      "question": "Quel est le son de ce caractère : ロ",
+      "options": ["ro", "re", "ra", "ri"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le son de ce caractère : ワ",
+      "options": ["wo", "wa", "o", "ra"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ヲ",
+      "options": ["o", "wo", "wa", "ro"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le son de ce caractère : ン",
+      "options": ["n", "na", "ni", "nu"],
+      "reponse": 0
+    }
+  ]
+}
