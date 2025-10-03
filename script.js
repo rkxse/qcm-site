@@ -96,43 +96,41 @@ function afficherQuestion() {
   const q = questions[currentQuestion];
   questionContainer.textContent = q.question;
 
-  // Récupérer la bonne réponse depuis originalReponse (chaîne)
+  // ✅ bonne réponse depuis le JSON (original)
   const originalCorrectAnswer = q.options[q.originalReponse];
 
   let optionsToShow = [];
 
   if (currentSubject === "japonais") {
-    // Récupérer toutes les options du QCM (toutes les questions)
+    // Récupérer toutes les options de toutes les questions
     let allOptions = questions.flatMap(quest => quest.options);
 
-    // Supprimer les doublons
+    // Supprimer doublons
     allOptions = [...new Set(allOptions)];
 
-    // Construire la liste des mauvaises réponses (exclure la bonne)
+    // Retirer la bonne réponse pour générer la liste des mauvaises
     let wrongAnswers = allOptions.filter(opt => opt !== originalCorrectAnswer);
 
-    // Mélanger les mauvaises réponses
+    // Mélanger
     shuffleArrayInPlace(wrongAnswers);
 
-    // Limiter à 3 mauvaises réponses maxi
+    // Prendre max 3 mauvaises
     wrongAnswers = wrongAnswers.slice(0, 3);
 
-    // Construire final + insérer la bonne réponse à une position aléatoire
+    // Final : bonnes + mauvaises
     optionsToShow = [...wrongAnswers];
     const randomPos = Math.floor(Math.random() * (optionsToShow.length + 1));
     optionsToShow.splice(randomPos, 0, originalCorrectAnswer);
 
-    // Mettre à jour l'index "runtime" de la bonne réponse
+    // ✅ Mettre à jour l’index correct dans CETTE instance
     q.reponse = randomPos;
   } else {
-    // Autres matières : on mélange les options de la question
+    // Autres matières → on mélange uniquement les options d’origine
     optionsToShow = shuffleArrayInPlace([...q.options]);
-
-    // Calculer l'index de la bonne réponse dans le nouveau tableau mélangé
     q.reponse = optionsToShow.indexOf(originalCorrectAnswer);
   }
 
-  // --- Générer les boutons ---
+  // --- Afficher les options ---
   optionsToShow.forEach((option, i) => {
     const btn = document.createElement("button");
     btn.textContent = option;
@@ -144,6 +142,7 @@ function afficherQuestion() {
   nextBtn.textContent = currentQuestion === questions.length - 1 ? "Terminer" : "Suivant";
   nextBtn.classList.add("hidden");
 }
+
 
 // --- Sélection d'une option ---
 function selectOption(index, btn) {
