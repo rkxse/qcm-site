@@ -2,7 +2,8 @@ let currentQuiz = null;
 let currentQuestion = 0;
 let score = 0;
 
-// Sélecteurs
+// Sélecteurs avec les bons ID
+const subjectSelection = document.getElementById("subject-selection");
 const subjectButtonsDiv = document.getElementById("subject-buttons");
 const themesDiv = document.getElementById("theme-selection");
 const themeButtonsDiv = document.getElementById("theme-buttons");
@@ -12,45 +13,47 @@ const optionsContainer = document.getElementById("options-container");
 const nextBtn = document.getElementById("next-btn");
 const resultatDiv = document.getElementById("resultat");
 
-// Fonction pour mélanger un tableau
-function shuffleArray(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
-
-// 📌 Matières et thèmes disponibles
+// Matières et thèmes disponibles
 const themes = {
   anglais: ["couldhave"],
   japonais: ["hiragana"]
 };
 
-// Charger la liste des matières
-function loadMatieres() {
-  subjectButtonsDiv.innerHTML = "";
-  Object.keys(themes).forEach(matiere => {
-    let btn = document.createElement("button");
-    btn.textContent = matiere.charAt(0).toUpperCase() + matiere.slice(1);
-    btn.onclick = () => loadThemes(matiere);
-    subjectButtonsDiv.appendChild(btn);
-  });
+// Fonction pour mélanger un tableau
+function shuffleArray(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
+
+// Ajouter événements aux boutons matière
+document.querySelectorAll("#subject-buttons button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    let matiere = btn.dataset.subject;
+    loadThemes(matiere);
+  });
+});
 
 // Charger les thèmes d’une matière
 function loadThemes(matiere) {
-  document.getElementById("subject-selection").classList.add("hidden");
+  subjectSelection.classList.add("hidden");
   themesDiv.classList.remove("hidden");
+
   document.getElementById("selected-subject").textContent =
     "Thèmes disponibles pour : " + matiere.charAt(0).toUpperCase() + matiere.slice(1);
 
   themeButtonsDiv.innerHTML = "";
   themes[matiere].forEach(theme => {
     fetch(`data/${matiere}/${theme}.json`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`Impossible de charger ${theme}.json`);
+        return res.json();
+      })
       .then(data => {
         let btn = document.createElement("button");
-        btn.textContent = data.title; // utiliser le titre du JSON
+        btn.textContent = data.title || theme;
         btn.onclick = () => startQuiz(matiere, theme);
         themeButtonsDiv.appendChild(btn);
-      });
+      })
+      .catch(err => alert("⚠️ Erreur : " + err.message));
   });
 }
 
@@ -60,16 +63,23 @@ function startQuiz(matiere, theme) {
   quizDiv.classList.remove("hidden");
 
   fetch(`data/${matiere}/${theme}.json`)
-    .then(response => response.json())
+    .then(res => {
+      if (!res.ok) throw new Error(`Fichier ${theme}.json introuvable`);
+      return res.json();
+    })
     .then(data => {
-      // Mélanger les questions
+      if (!data.questions || !Array.isArray(data.questions)) {
+        throw new Error("Format JSON invalide : pas de questions trouvées.");
+      }
+
       data.questions = shuffleArray(data.questions);
 
       currentQuiz = data;
       currentQuestion = 0;
       score = 0;
       afficherQuestion();
-    });
+    })
+    .catch(err => alert("⚠️ Erreur : " + err.message));
 }
 
 // Afficher une question
@@ -79,7 +89,6 @@ function afficherQuestion() {
 
   questionContainer.textContent = q.question;
 
-  // Mélanger les options
   let options = [...q.options];
   let correctIndex = q.reponse;
   let correctAnswer = options[correctIndex];
@@ -132,6 +141,3 @@ nextBtn.addEventListener("click", () => {
     resultatDiv.classList.remove("hidden");
   }
 });
-
-// Lancer au démarrage
-loadMatieres();
