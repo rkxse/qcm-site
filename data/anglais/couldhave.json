@@ -2,7 +2,7 @@
   "title": "Could Have",
   "questions": [
     {
-      "question": "1. Comment utiliser 'could have' dans une phrase ?",
+      "question": "Comment utiliser 'could have' dans une phrase ?",
       "options": [
         "Pour parler d’une action future certaine.",
         "Pour exprimer une possibilité ou une capacité dans le passé qui n’a pas été réalisée.",
@@ -12,7 +12,7 @@
       "reponse": 1
     },
     {
-      "question": "2. Donnez un exemple correct de phrase utilisant 'could have'.",
+      "question": "Donnez un exemple correct de phrase utilisant 'could have'.",
       "options": [
         "I could have passed the exam if I had studied more.",
         "I will could pass the exam tomorrow.",
@@ -22,7 +22,7 @@
       "reponse": 0
     },
     {
-      "question": "3. Quelle est la structure de base d'une phrase avec 'could have' ?",
+      "question": "Quelle est la structure de base d'une phrase avec 'could have' ?",
       "options": [
         "Sujet + could have + participe passé",
         "Sujet + could have + verbe à l’infinitif",
@@ -32,7 +32,7 @@
       "reponse": 0
     },
     {
-      "question": "4. Comment exprimer un regret avec 'could have' ?",
+      "question": "Comment exprimer un regret avec 'could have' ?",
       "options": [
         "\"I could have done it, but I didn’t.\"",
         "\"I could do it every day.\"",
@@ -42,7 +42,7 @@
       "reponse": 0
     },
     {
-      "question": "5. Quelle est la différence entre 'could have' et 'should have' ?",
+      "question": "Quelle est la différence entre 'could have' et 'should have' ?",
       "options": [
         "\"Could have\" exprime une possibilité passée, \"should have\" exprime une obligation ou un conseil non suivi.",
         "\"Could have\" exprime une obligation, \"should have\" exprime une capacité.",
