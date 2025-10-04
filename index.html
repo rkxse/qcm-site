@@ -5,11 +5,37 @@
   <title>SHOP TON BAC 2025</title>
   <link rel="stylesheet" href="style.css">
 
-  <!-- Favicon (image dans l'onglet du navigateur) -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
   <style>
-    /* Style pour la version */
+    /* --- Conteneur global --- */
+    body {
+      background: linear-gradient(135deg, #4a00e0, #2979ff);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      width: 80%;
+      max-width: 900px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    h2 {
+      color: #2979ff;
+      margin-bottom: 20px;
+    }
+
+    /* --- Version info --- */
     .version-info {
       position: fixed;
       bottom: 10px;
@@ -21,8 +47,71 @@
       border-radius: 6px;
       font-family: Arial, sans-serif;
     }
+
+    /* --- Boutons en ligne --- */
+    #subject-buttons,
+    #theme-buttons,
+    #options-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      background: #6200ea;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-size: 15px;
+      min-width: 100px;
+      flex: 0 1 calc(45% - 12px); /* garde les boutons en ligne */
+    }
+
+    button:hover {
+      background: #7c4dff;
+      transform: scale(1.05);
+    }
+
+    .option.correct {
+      background: #4caf50 !important;
+    }
+
+    .option.wrong {
+      background: #f44336 !important;
+    }
+
+    #next-btn {
+      margin-top: 25px;
+      background: #2979ff;
+      flex: 0 1 auto;
+    }
+
+    #next-btn:hover {
+      background: #448aff;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #resultat button {
+      margin-top: 15px;
+      background: #2979ff;
+    }
+
+    @media (max-width: 600px) {
+      button {
+        flex: 0 1 100%;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
 
@@ -52,7 +141,7 @@
 
   <!-- Version -->
   <div class="version-info">
-    QCM interactif - Version 1.6
+    QCM interactif - Version 1.7
   </div>
 
   <script src="script.js"></script>
