@@ -1,0 +1,105 @@
+{
+  "title": "Géométrie dans l'espace",
+  "questions": [
+    {
+      "question": "Dans l’espace, deux droites non coplanaires :",
+      "options": ["sont toujours parallèles", "n’ont aucun point en commun", "se rencontrent en un point", "sont confondues"],
+      "reponse": 1
+    },
+    {
+      "question": "Une droite et un plan peuvent être :",
+      "options": ["sécants (intersection = un point)", "parallèles", "la droite contenue dans le plan", "toutes ces réponses"],
+      "reponse": 3
+    },
+    {
+      "question": "Deux plans parallèles :",
+      "options": ["sont soit disjoints soit confondus", "intersectent toujours suivant une droite", "peuvent être sécants", "n’ont aucun point en commun"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le vecteur normal au plan d’équation ax + by + cz + d = 0 ?",
+      "options": ["(a, b, c)", "(−a, −b, −c)", "(a, b, c, d)", "(d, d, d)"],
+      "reponse": 0
+    },
+    {
+      "question": "Si une droite est parallèle à une droite d’un plan, alors :",
+      "options": ["la droite est parallèle au plan", "la droite est sécante au plan", "la droite est orthogonale au plan", "aucune conclusion"],
+      "reponse": 3
+    },
+    {
+      "question": "Deux vecteurs sont orthogonaux si :",
+      "options": ["leur produit scalaire est nul", "leur somme est nulle", "leur norme est égale", "ils sont parallèles"],
+      "reponse": 0
+    },
+    {
+      "question": "Le produit scalaire de deux vecteurs u(x1, y1, z1) et v(x2, y2, z2) est :",
+      "options": ["x1x2 + y1y2 + z1z2", "x1x2 - y1y2 - z1z2", "x1 + y1 + z1", "x1x2y1y2z1z2"],
+      "reponse": 0
+    },
+    {
+      "question": "Deux vecteurs sont parallèles si :",
+      "options": ["l’un est un multiple scalaire de l’autre", "leur produit scalaire est nul", "leurs coordonnées sont égales", "leur norme est 1"],
+      "reponse": 0
+    },
+    {
+      "question": "Un vecteur normal à un plan est :",
+      "options": ["perpendiculaire au plan", "parallèle au plan", "contenu dans le plan", "nul"],
+      "reponse": 0
+    },
+    {
+      "question": "L’intersection de deux plans non parallèles est :",
+      "options": ["un point", "une droite", "un plan", "vide"],
+      "reponse": 1
+    },
+    {
+      "question": "Une droite est orthogonale à un plan si :",
+      "options": ["elle est orthogonale à deux droites non parallèles du plan", "elle coupe le plan en un point", "elle est parallèle au plan", "elle est contenue dans le plan"],
+      "reponse": 0
+    },
+    {
+      "question": "La distance entre un point M et un plan P est :",
+      "options": ["la longueur du segment perpendiculaire à P", "la distance horizontale à P", "la norme du vecteur position", "la projection oblique sur P"],
+      "reponse": 0
+    },
+    {
+      "question": "Trois vecteurs u, v, w sont coplanaires si :",
+      "options": ["w = αu + βv pour certains réels α, β", "u + v + w = 0", "‖u × v × w‖ = 0", "u ⋅ v + v ⋅ w + w ⋅ u = 0"],
+      "reponse": 0
+    },
+    {
+      "question": "Le produit scalaire u⋅v peut être utilisé pour :",
+      "options": ["calculer un angle", "déterminer une projection orthogonale", "vérifier une orthogonalité", "toutes ces réponses"],
+      "reponse": 3
+    },
+    {
+      "question": "Si u⋅v = 0 alors :",
+      "options": ["u et v sont orthogonaux", "u et v sont parallèles", "u = v", "u et v sont colinéaires"],
+      "reponse": 0
+    },
+    {
+      "question": "Le produit scalaire est défini géométriquement par :",
+      "options": ["u⋅v = ‖u‖‖v‖cos(θ)", "u⋅v = ‖u‖‖v‖sin(θ)", "u⋅v = ‖u‖ + ‖v‖", "u⋅v = (u×v)·w"],
+      "reponse": 0
+    },
+    {
+      "question": "La norme d’un vecteur u(x, y, z) est :",
+      "options": ["√(x² + y² + z²)", "x + y + z", "|x| + |y| + |z|", "x² + y² + z²"],
+      "reponse": 0
+    },
+    {
+      "question": "Le vecteur directeur d’une droite Δ a pour rôle de :",
+      "options": ["indiquer la direction de la droite", "déterminer le plan associé", "définir le vecteur normal", "rien de tout cela"],
+      "reponse": 0
+    },
+    {
+      "question": "L’équation d’une sphère de centre I(a,b,c) et de rayon R est :",
+      "options": ["(x−a)² + (y−b)² + (z−c)² = R²", "(x+a)² + (y+b)² + (z+c)² = R²", "x² + y² + z² = R²", "(x−a)+(y−b)+(z−c)=R²"],
+      "reponse": 0
+    },
+    {
+      "question": "Dans un repère orthonormé, la distance entre A(x1, y1, z1) et B(x2, y2, z2) est :",
+      "options": ["√((x2−x1)² + (y2−y1)² + (z2−z1)²)", "|x2−x1| + |y2−y1| + |z2−z1|", "(x2−x1)² + (y2−y1)² + (z2−z1)²", "√((x2−x1)² + (y2−y1)²)"],
+      "reponse": 0
+    }
+  ]
+}

@@ -15,7 +15,7 @@ const resultatDiv = document.getElementById("resultat");
 const themes = {
   anglais: ["couldhave"],
   japonais: ["hiragana", "katakana", "passif"],
-  math: ["geometrie_espace2"] 
+  math: ["geometriedanslespace"] 
 };
 
 // Variables pour le quiz
