@@ -1,0 +1,85 @@
+{
+  "title": "Passif",
+  "questions": [
+    {
+      "question": "Pour former la voix passive d’un verbe godan (五段), on :",
+      "options": [
+        "Ajoute 「られる」 au radical en -i",
+        "Remplace la terminaison finale par la ligne a + 「れる」",
+        "Ajoute 「できる」 après le radical",
+        "Remplace la terminaison par la ligne e + 「る」"
+      ],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le passif de 送る (okuru = envoyer) ?",
+      "options": ["送れる", "送られる", "送れるた", "送っていた"],
+      "reponse": 1
+    },
+    {
+      "question": "La phrase : 「日本人を尊敬します。」 (Je respecte les Japonais) au passif devient :",
+      "options": [
+        "日本人に尊敬されます。",
+        "日本人が尊敬する。",
+        "日本人を尊敬できる。",
+        "日本人に尊敬できる。"
+      ],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le passif de 作る (tsukuru = fabriquer) ?",
+      "options": ["作られる", "作れる", "作るれる", "作できる"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le passif de 飲む (nomu = boire / demander) ?",
+      "options": ["飲める", "飲まれる", "飲られる", "飲んできる"],
+      "reponse": 1
+    },
+    {
+      "question": "Donne le passif de 来る (kuru = venir) (irrégulier).",
+      "options": ["来れる", "来られる (korareru)", "来できる", "来るれる"],
+      "reponse": 1
+    },
+    {
+      "question": "Donne le passif de する (suru = faire).",
+      "options": ["すられる", "される", "すれる", "できる"],
+      "reponse": 1
+    },
+    {
+      "question": "Quelle est la différence entre forme passive (受け身) et forme potentielle (可能形) ?",
+      "options": [
+        "Le passif exprime une capacité, le potentiel une action subie",
+        "Le passif exprime une action subie, le potentiel exprime une capacité",
+        "Ce sont deux formes identiques",
+        "Les deux expriment une obligation"
+      ],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le potentiel de 作る (tsukuru = fabriquer) ?",
+      "options": ["作れる", "作られる", "作できる", "作ている"],
+      "reponse": 0
+    },
+    {
+      "question": "Quel est le potentiel de する (suru = faire) ?",
+      "options": ["される", "出来る (dekiru)", "するる", "しれる"],
+      "reponse": 1
+    },
+    {
+      "question": "Quel est le potentiel de 来る (kuru = venir) ?",
+      "options": ["来られる (korareru)", "来れる (koreru)", "Les deux existent", "Aucun des deux"],
+      "reponse": 2
+    },
+    {
+      "question": "Dans la phrase : 「私は先生に褒められました。」 quel est le rôle de 「に」 ?",
+      "options": [
+        "Marquer l’agent de l’action (par qui)",
+        "Marquer le lieu",
+        "Marquer la direction",
+        "Marquer la cause"
+      ],
+      "reponse": 0
+    }
+  ]
+}
