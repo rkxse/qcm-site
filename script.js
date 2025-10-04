@@ -75,18 +75,21 @@ function lancerQuiz(data) {
 
   themeTitleEl.textContent = `${data.title}`;
 
-  // Deep-ish copy des questions (copie des objets et des tableaux d'options)
+  // Deep-ish copy des questions
   questions = data.questions.map(q => ({
     question: q.question,
     options: [...q.options],
-    originalReponse: q.reponse // index d'origine dans le fichier JSON
+    originalReponse: q.reponse // index d'origine
   }));
 
-  // Mélanger les questions (ordre aléatoire)
+  // Mélanger uniquement les questions
   questions = shuffleArrayInPlace(questions);
 
   currentQuestion = 0;
   score = 0;
+
+  // On garde en mémoire si c'est le QCM "Passif"
+  quizDiv.dataset.isPassif = (data.title === "Passif");
 
   afficherQuestion();
 }
@@ -96,41 +99,35 @@ function afficherQuestion() {
   const q = questions[currentQuestion];
   questionContainer.textContent = q.question;
 
-  // ✅ bonne réponse depuis le JSON (original)
+  // Bonne réponse d'origine
   const originalCorrectAnswer = q.options[q.originalReponse];
-
   let optionsToShow = [];
 
-  if (currentSubject === "japonais") {
-    // Récupérer toutes les options de toutes les questions
+  if (currentSubject === "japonais" && !quizDiv.dataset.isPassif) {
+    // --- Cas Japonais (Hiragana / Katakana) → anti-doublons ---
     let allOptions = questions.flatMap(quest => quest.options);
-
-    // Supprimer doublons
     allOptions = [...new Set(allOptions)];
 
-    // Retirer la bonne réponse pour générer la liste des mauvaises
     let wrongAnswers = allOptions.filter(opt => opt !== originalCorrectAnswer);
-
-    // Mélanger
     shuffleArrayInPlace(wrongAnswers);
-
-    // Prendre max 3 mauvaises
     wrongAnswers = wrongAnswers.slice(0, 3);
 
-    // Final : bonnes + mauvaises
     optionsToShow = [...wrongAnswers];
     const randomPos = Math.floor(Math.random() * (optionsToShow.length + 1));
     optionsToShow.splice(randomPos, 0, originalCorrectAnswer);
 
-    // ✅ Mettre à jour l’index correct dans CETTE instance
     q.reponse = randomPos;
+  } else if (quizDiv.dataset.isPassif === "true") {
+    // --- Cas spécial Passif : ne pas mélanger les réponses ---
+    optionsToShow = [...q.options];
+    q.reponse = q.originalReponse; // garder l’index original
   } else {
-    // Autres matières → on mélange uniquement les options d’origine
+    // --- Matières normales ---
     optionsToShow = shuffleArrayInPlace([...q.options]);
     q.reponse = optionsToShow.indexOf(originalCorrectAnswer);
   }
 
-  // --- Afficher les options ---
+  // Affichage
   optionsToShow.forEach((option, i) => {
     const btn = document.createElement("button");
     btn.textContent = option;
@@ -142,6 +139,7 @@ function afficherQuestion() {
   nextBtn.textContent = currentQuestion === questions.length - 1 ? "Terminer" : "Suivant";
   nextBtn.classList.add("hidden");
 }
+
 
 
 // --- Sélection d'une option ---
