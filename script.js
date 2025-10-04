@@ -14,7 +14,8 @@ const resultatDiv = document.getElementById("resultat");
 // Matières et thèmes disponibles
 const themes = {
   anglais: ["couldhave"],
-  japonais: ["hiragana", "katakana", "passif"]
+  japonais: ["hiragana", "katakana", "passif"],
+  math: ["geometrie_espace2"] 
 };
 
 // Variables pour le quiz
