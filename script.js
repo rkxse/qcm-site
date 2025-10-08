@@ -23,7 +23,7 @@ quizDiv.insertBefore(progressionEl, questionContainer);
 const themes = {
   anglais: ["couldhave"],
   japonais: ["hiragana", "katakana", "passif"],
-  math: ["geometriedanslespace"]
+  math: ["geometriedanslespace","vecteurorthogonal"]
 };
 
 // Variables pour le quiz
